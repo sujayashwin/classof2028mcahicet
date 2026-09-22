@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCA · Class of 2028</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.31/vue.global.prod.min.js"></script>
+<style>
+  :root{
+    --ink:#1b2333;
+    --ink-soft:#4b5468;
+    --paper:#faf8f2;
+    --paper-raised:#ffffff;
+    --line:#e4dfd2;
+    --navy:#17284a;
+    --navy-deep:#0e1a33;
+    --brass:#a9781f;
+    --brass-soft:#f1e3c4;
+    --leave:#5f7a52;
+    --leave-bg:#eaf0e3;
+    --holiday:#3c5f8a;
+    --holiday-bg:#e4edf6;
+    --exam:#9c3d34;
+    --exam-bg:#f6e6e2;
+    --radius:3px;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#eef0f4; --ink-soft:#b7bccb; --paper:#11141c; --paper-raised:#181c26;
+      --line:#2a2f3d; --navy:#1c2c4d; --navy-deep:#0b1120; --brass:#d8ae5f; --brass-soft:#2c2517;
+      --leave-bg:#1c2419; --holiday-bg:#182335; --exam-bg:#2a1a17;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#eef0f4; --ink-soft:#b7bccb; --paper:#11141c; --paper-raised:#181c26;
+    --line:#2a2f3d; --navy:#1c2c4d; --navy-deep:#0b1120; --brass:#d8ae5f; --brass-soft:#2c2517;
+    --leave-bg:#1c2419; --holiday-bg:#182335; --exam-bg:#2a1a17;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{ font-family:'Lora',Georgia,serif; }
+  a{color:inherit;}
+  ::-webkit-scrollbar{height:8px;width:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;}
+
+  .masthead{
+    background: linear-gradient(155deg,var(--navy) 0%, var(--navy-deep) 100%);
+    color:#f2f0e8;
+    padding: 28px 20px 22px;
+    padding-top: calc(28px + env(safe-area-inset-top, 0px));
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 68px);
+    pointer-events:none;
+  }
+  .masthead-inner{max-width:1080px;margin:0 auto;position:relative;}
+  .eyebrow-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .college-name{font-size:12.5px;letter-spacing:.02em;color:#c9d2e6;margin:0;}
+  .cohort-tag{font-size:12.5px;color:var(--brass);font-weight:600;}
+  .class-title{
+    font-size:clamp(28px,5.5vw,44px); font-weight:700; margin:8px 0 4px;
+    line-height:1.08;
+  }
+  .class-sub{color:#c9d2e6;font-size:14.5px;margin:0;max-width:60ch;}
+
+  nav.tabs{
+    max-width:1080px;margin:22px auto 0; display:flex; gap:2px;
+    border-bottom:1px solid rgba(255,255,255,.14);
+  }
+  nav.tabs button{
+    appearance:none;border:none;background:transparent;color:#c9d2e6;
+    font-family:'Inter';font-size:14px;font-weight:600;padding:10px 16px;
+    cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+    white-space:nowrap;
+  }
+  nav.tabs button:hover{color:#fff;}
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--brass);}
+
+  main{max-width:1080px;margin:0 auto;padding:32px 20px 80px;}
+  section.panel{display:none;}
+  section.panel.active{display:block; animation: rise .35s ease both;}
+  @media (prefers-reduced-motion: reduce){ section.panel.active{animation:none;} }
+  @keyframes rise{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .section-head{margin-bottom:22px;}
+  .section-head h2{font-size:26px;margin:0 0 6px;}
+  .section-head p{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:62ch;}
+
+  /* ---- Students ---- */
+  .student-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  .search-box{
+    flex:1; min-width:180px; position:relative;
+  }
+  .search-box input{
+    width:100%; padding:10px 14px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-raised); color:var(--ink); font-family:'Inter'; font-size:14.5px;
+  }
+  .search-box input:focus{outline:2px solid var(--brass); outline-offset:1px;}
+  .count-pill{font-size:12.5px; color:var(--ink-soft); white-space:nowrap;}
+  .roster{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px;
+  }
+  .stu-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:13px 14px; display:flex; gap:12px; align-items:center;
+  }
+  .stu-num{
+    font-family:'Lora'; font-weight:600; color:var(--brass); font-size:15px;
+    width:26px; flex:none; text-align:right;
+  }
+  .stu-name{font-weight:600; font-size:14.5px; line-height:1.3;}
+  .stu-roll{font-size:12px; color:var(--ink-soft); letter-spacing:.02em; margin-top:2px;}
+  .empty-state{padding:40px 10px;text-align:center;color:var(--ink-soft);font-size:14px;}
+
+  /* ---- Timetable ---- */
+  .day-picker{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;padding-bottom:4px;}
+  .day-picker button{
+    flex:none; padding:8px 14px; border-radius:20px; border:1px solid var(--line);
+    background:var(--paper-raised); color:var(--ink-soft); font-family:'Inter'; font-weight:600; font-size:13px;
+    cursor:pointer;
+  }
+  .day-picker button.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+  table.tt{width:100%; border-collapse:collapse; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  table.tt th{
+    background:var(--navy); color:#eef0f4; font-size:11.5px; font-weight:600; letter-spacing:.02em;
+    padding:9px 6px; text-align:left; white-space:nowrap;
+  }
+  table.tt td{padding:0; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.tt tr:last-child td{border-bottom:none;}
+  .tt-day-label{
+    padding:12px 10px; font-weight:700; font-family:'Lora'; font-size:14.5px; color:var(--navy);
+    background:var(--brass-soft); white-space:nowrap;
+  }
+  :root[data-theme="dark"] .tt-day-label{color:#f1e3c4;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tt-day-label{color:#f1e3c4;}}
+  .slot{padding:10px 9px; font-size:12.5px; line-height:1.35; min-width:118px;}
+  .slot .subj{font-weight:600; display:block;}
+  .slot .code{color:var(--ink-soft); font-size:11px; display:block; margin-top:1px;}
+  .slot.empty{color:var(--ink-soft); opacity:.4;}
+  .slot.brk{background:var(--brass-soft); text-align:center; font-weight:700; font-size:11px; color:var(--brass); writing-mode:vertical-rl; min-width:30px;}
+  .slot.lunch{background:var(--holiday-bg); text-align:center; font-weight:700; font-size:11px; color:var(--holiday); writing-mode:vertical-rl; min-width:30px;}
+  .tt-scroll{overflow-x:auto; border-radius:var(--radius);}
+  .period-times{font-size:10.5px; color:var(--ink-soft); font-weight:500;}
+
+  .day-card{display:none;}
+  .day-card.show{display:block;}
+  .slot-row{display:flex; justify-content:space-between; gap:14px; padding:13px 14px; border-bottom:1px solid var(--line); background:var(--paper-raised); align-items:baseline;}
+  .slot-row:first-child{border-top-left-radius:var(--radius); border-top-right-radius:var(--radius);}
+  .slot-row:last-child{border-bottom:none; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius);}
+  .slot-row .when{font-size:11.5px; color:var(--ink-soft); flex:none; width:92px;}
+  .slot-row .what{flex:1; font-size:14px; font-weight:600;}
+  .slot-row .what small{display:block; font-weight:500; color:var(--ink-soft); font-size:11.5px; margin-top:1px;}
+  .slot-row.break-row .what, .slot-row.lunch-row .what{color:var(--brass); font-weight:700;}
+
+  /* ---- Calendar ---- */
+  .month-picker{display:flex;gap:6px;overflow-x:auto;margin-bottom:18px;padding-bottom:4px;}
+  .month-picker button{
+    flex:none; padding:8px 16px; border-radius:20px; border:1px solid var(--line);
+    background:var(--paper-raised); color:var(--ink-soft); font-family:'Inter'; font-weight:600; font-size:13px; cursor:pointer;
+  }
+  .month-picker button.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .legend{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; font-size:12px; color:var(--ink-soft);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:9px;height:9px;border-radius:2px;display:inline-block;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+  .cal-dow{font-size:11px; text-align:center; color:var(--ink-soft); font-weight:600; padding-bottom:2px;}
+  .cal-cell{
+    border-radius:var(--radius); padding:7px 6px; min-height:64px; font-size:11px; cursor:pointer;
+    border:1px solid var(--line); background:var(--paper-raised); display:flex; flex-direction:column; gap:3px;
+    transition:transform .1s;
+  }
+  .cal-cell:hover{transform:translateY(-1px);}
+  .cal-cell.blank{visibility:hidden;}
+  .cal-cell .num{font-family:'Lora'; font-weight:700; font-size:13px;}
+  .cal-cell .tag{font-size:9.5px; line-height:1.25; color:var(--ink-soft); overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;}
+  .cal-cell.leave{background:var(--leave-bg); border-color:var(--leave);}
+  .cal-cell.holiday{background:var(--holiday-bg); border-color:var(--holiday);}
+  .cal-cell.exam{background:var(--exam-bg); border-color:var(--exam);}
+  .cal-cell.selected{outline:2px solid var(--brass); outline-offset:1px;}
+  .cal-detail{
+    margin-top:18px; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .cal-detail .d-date{font-family:'Lora'; font-weight:700; font-size:16px; margin-bottom:4px;}
+  .cal-detail .d-label{font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+  .cal-detail .d-badge{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.02em; padding:2px 8px; border-radius:20px; margin-bottom:8px;}
+  .b-leave{background:var(--leave-bg); color:var(--leave);}
+  .b-holiday{background:var(--holiday-bg); color:var(--holiday);}
+  .b-exam{background:var(--exam-bg); color:var(--exam);}
+  .b-work{background:var(--brass-soft); color:var(--brass);}
+
+  /* ---- Faculty ---- */
+  .fac-table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius);}
+  table.fac{width:100%; border-collapse:collapse; background:var(--paper-raised); font-size:13.5px;}
+  table.fac th{
+    background:var(--navy); color:#eef0f4; text-align:left; padding:10px 12px; font-size:11.5px; font-weight:600; white-space:nowrap;
+  }
+  table.fac td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.fac tr:last-child td{border-bottom:none;}
+  .cat-pill{
+    font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:.02em; white-space:nowrap;
+    background:var(--brass-soft); color:var(--brass);
+  }
+  .fac-note{margin-top:14px; font-size:12.5px; color:var(--ink-soft);}
+
+  footer{
+    text-align:center; padding:26px 20px calc(26px + env(safe-area-inset-bottom,0px)); color:var(--ink-soft); font-size:12px; border-top:1px solid var(--line);
+  }
+
+  @media (max-width:640px){
+    .tt-wide{display:none;}
+  }
+  @media (min-width:641px){
+    .tt-narrow{display:none;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const { createApp, ref, computed } = Vue;
+
+/* ---------------- DATA ---------------- */
+
+const students = [
+["1","26MCA001","Akash R"],["2","26MCA002","Akshaya N"],["3","26MCA003","Amritha Gupthan V S"],
+["4","26MCA004","Amruthakrishna K"],["5","26MCA005","Anbarasan R"],["6","26MCA006","Aniksha M"],
+["7","26MCA007","Anitha N"],["8","26MCA008","Apoorva A"],["9","26MCA009","Devasundari M"],
+["10","26MCA010","Dinesh Babu R S"],["11","26MCA011","Divya Dharshini S"],["12","26MCA012","Divya T"],
+["13","26MCA013","Gokul R K K"],["14","26MCA014","Iyappan Magesh N"],["15","26MCA015","Kiruthika L"],
+["16","26MCA016","Kishore Kumar M"],["17","26MCA017","Lingarajan G"],["18","26MCA018","Manasa S"],
+["19","26MCA019","Mohan T"],["20","26MCA020","Naveen Kumar R"],["21","26MCA021","Niranjana K"],
+["22","26MCA022","Nivetha R"],["23","26MCA023","Parthiban A"],["24","26MCA024","Ponrithika V"],
+["25","26MCA025","Poovarasan T"],["26","26MCA026","Pragatheeswaran B"],["27","26MCA027","Sadananda Gokul N"],
+["28","26MCA028","Sarathadevi A"],["29","26MCA029","Siranjeevi M"],["30","26MCA030","Siva K"],
+["31","26MCA031","Sreya R"],["32","26MCA032","Sruthi D"],["33","26MCA033","Subhaharini S M"],
+["34","26MCA034","Sujay Ashwin S"],["35","26MCA035","Sujetha K"],["36","26MCA036","Suriya K"],
+["37","26MCA037","Suryadev S S"],["38","26MCA038","Thejaswini R"],["39","26MCA039","Venkateshwara Rao S"],
+["40","26MCA040","Vinoth K"],["41","26MCA041","Navin D"]
+].map(([n,roll,name])=>({sno:n, roll, name}));
+
+const periodTimes = ["9.15–10.05","10.05–10.55","BREAK","11.10–12.00","12.00–12.50","LUNCH","2.00–2.50","2.50–3.40","3.40–4.30","4.30–5.30"];
+
+// each day: array of {t:'class'|'break'|'lunch'|'empty', subj, code, time}
+const S = (subj, code) => ({t:'class', subj, code});
+const B = {t:'break'}; const L = {t:'lunch'}; const E = {t:'empty'};
+
+const timetable = {
+  Monday: [S("Modern Web App Development","26CA1251"), S("DBMS Lab / POP & OOP Lab","Bridge"), B,
+            S("DBMS Lab → POP & OOP Lab","26CA1091 · Bridge"), S("DBMS Lab → POP & OOP Lab","26CA1091 · Bridge"), L,
+            S("Java Programming","26CA1203"), S("Prob. & Stats with R","26MA1151"), S("Java Programming","26CA1203"), E],
+  Tuesday:[S("Modern Web App Dev → Fund. of Web Design","26CA1292 · Bridge"), S("Modern Web App Dev → Fund. of Web Design","26CA1292 · Bridge"), B,
+            S("Research Methodology","26CA1204"), S("Research Methodology","26CA1204"), L,
+            S("Data Comm. & Networking","26CA1201"), S("Prob. & Stats with R","26MA1151"), S("Database Mgmt. Systems","26CA1202"), S("Fund. of Web Design","26CA1292 · Bridge")],
+  Wednesday:[S("Data Comm. & Networking","26CA1201"), S("Data Comm. & Networking","26CA1201"), B,
+            S("Prob. & Stats with R","26MA1151"), S("Prob. & Stats with R","26MA1151"), L,
+            S("Modern Web App Development","26CA1251"), S("Modern Web App Development","26CA1251"), S("Database Mgmt. Systems","26CA1202"), E],
+  Thursday:[S("Database Mgmt. Systems","26CA1202"), S("Database Mgmt. Systems","26CA1202"), B,
+            S("Research Methodology","26CA1204"), S("Java Programming","26CA1203"), L,
+            S("Java Programming","26CA1203"), S("Data Comm. & Networking","26CA1201"), S("Prob. & Stats with R","26MA1151"), E],
+  Friday:[S("Library / POP & OOP","26CA1291 · Bridge"), S("Data Comm. & Networking","26CA1201"), B,
+            S("Skill Forge Project","26CA2801"), S("Skill Forge Project","26CA2801"), L,
+            S("Java Programming Lab","26CA1002"), S("Java Prog. Lab → POP & OOP","Bridge"), S("Java Prog. Lab → POP & OOP","Bridge"), E],
+  Saturday:[S("Prob. & Stats with R","26MA1151"), S("Database Mgmt. Systems","26CA1202"), B,
+            S("Skill Forge Project","26CA2801"), S("Skill Forge Project","26CA2801"), L,
+            S("Java Programming","26CA1203"), S("Modern Web App Development","26CA1251"), S("TWM","Tutor/Ward Meet"), E],
+};
+const dayNames = Object.keys(timetable);
+
+const faculty = [
+  ["Theory","26CA1201","Data Communication and Networking","3","5","Dr M Nirmala"],
+  ["Theory","26CA1202","Database Management Systems","3","5","Mr Pradeep Kumar S"],
+  ["Theory","26CA1203","Java Programming","3","5","Mrs K Vinotha"],
+  ["Theory","26CA1204","Research Methodology","2","4","Dr S Shankar"],
+  ["Lab Int.","26CA1251","Modern Web Application Development","4","6","Dr K Vigneshkumar"],
+  ["Lab Int.","26MA1151","Probability and Statistics with R Programming","4","6","Dr S Girija"],
+  ["Practical","26CA1001","Database Management Systems Lab","1.5","3","Mr S Pradeep Kumar / Dr M Nirmala"],
+  ["Practical","26CA1002","Java Programming Lab","1.5","3","Mrs K Vinotha / Dr M Nirmala"],
+  ["Bridge","26CA1291","Procedural Oriented Programming and OOP","–","3","Mr S Pradeep Kumar"],
+  ["Bridge","26CA1292","Fundamentals of Web Design","–","3","Mrs Sherlyn Sandhya M"],
+  ["Bridge","26CA1091","POP & OOP Lab","–","3","Mrs K Vinotha"],
+  ["Others","26CA2801","Skill Forge Project","2","4","Dr A R Jayasudha"],
+].map(([cat,code,name,cr,hrs,fac])=>({cat,code,name,cr,hrs,fac}));
+
+// Calendar: build from raw rows. type: leave | holiday | exam | work
+function mk(month, rows){
+  return rows.map(r=>{
+    const [d,dow,label,type] = r;
+    return {month, d, dow, label, type};
+  });
+}
+const calendarData = {
+  "Jun 2026": mk("Jun 2026", [
+    [1,"Mo","",""],[2,"Tu","",""],[3,"We","",""],[4,"Th","",""],[5,"Fr","",""],[6,"Sa","",""],
+    [7,"Su","Leave","leave"],
+    [8,"Mo","Reopen for Odd Sem · Internship & VAC","work"],
+    [9,"Tu","Internship & VAC","work"],[10,"We","Internship & VAC","work"],[11,"Th","Internship & VAC","work"],
+    [12,"Fr","Internship & VAC","work"],[13,"Sa","Internship & VAC","work"],
+    [14,"Su","Leave","leave"],
+    [15,"Mo","Day 1 — Regular class start","work"],[16,"Tu","Day 2","work"],[17,"We","Day 3","work"],
+    [18,"Th","Day 4","work"],[19,"Fr","Day 5","work"],[20,"Sa","Day 6","work"],
+    [21,"Su","Leave","leave"],
+    [22,"Mo","Day 7","work"],[23,"Tu","Day 8","work"],[24,"We","Day 9","work"],[25,"Th","Day 10","work"],
+    [26,"Fr","Muharram","holiday"],
+    [27,"Sa","Leave","leave"],[28,"Su","Leave","leave"],
+    [29,"Mo","Day 11","work"],[30,"Tu","Day 12 — Completion of Unit I (VII Sem)","work"],
+  ]),
+  "Jul 2026": mk("Jul 2026", [
+    [1,"We","Day 13","work"],[2,"Th","Day 14 — Completion of Unit I (III & V Sem)","work"],
+    [3,"Fr","Day 15","work"],[4,"Sa","Day 16","work"],
+    [5,"Su","Leave","leave"],
+    [6,"Mo","Day 17","work"],[7,"Tu","Day 18","work"],[8,"We","Day 19","work"],[9,"Th","Day 20","work"],[10,"Fr","Day 21","work"],
+    [11,"Sa","Leave","leave"],[12,"Su","Leave","leave"],
+    [13,"Mo","Day 22","work"],[14,"Tu","Day 23","work"],
+    [15,"We","Day 24 — Completion of Unit II (VII Sem)","work"],
+    [16,"Th","Day 25","work"],[17,"Fr","Day 26","work"],[18,"Sa","Day 27","work"],
+    [19,"Su","Leave","leave"],
+    [20,"Mo","Day 28 — Completion of Unit II (III & V Sem)","work"],
+    [21,"Tu","Day 29 — CDP Review 1 (V Sem)","work"],[22,"We","Day 30","work"],[23,"Th","Day 31","work"],[24,"Fr","Day 32","work"],
+    [25,"Sa","Leave","leave"],[26,"Su","Leave","leave"],
+    [27,"Mo","Day 33 — Internal Test I (VII Sem)","exam"],[28,"Tu","Day 34 — Internal Test I (VII Sem)","exam"],
+    [29,"We","Day 35 — Internal Test I (VII Sem)","exam"],[30,"Th","Day 36 — Internal Test I (VII Sem)","exam"],
+    [31,"Fr","Day 37 — Internal Test I (VII Sem) · Last date for tuition fee","exam"],
+  ]),
+  "Aug 2026": mk("Aug 2026", [
+    [1,"Sa","Day 38 — Internal Test I (VII Sem)","exam"],
+    [2,"Su","Leave","leave"],
+    [3,"Mo","Day 39 — Internal Test I / Honours-Minor INT 1 (VII Sem) · SEE reg. commences","exam"],
+    [4,"Tu","Day 40 — Internal Test I (III & V Sem) · Honours/Minor INT 1 (VII Sem)","exam"],
+    [5,"We","Day 41 — Internal Test I (III & V Sem)","exam"],[6,"Th","Day 42 — Internal Test I (III & V Sem)","exam"],
+    [7,"Fr","Day 43 — Internal Test I (III & V Sem)","exam"],
+    [8,"Sa","Day 44 — Internal Test I (III & V Sem) · Completion of Unit III (VII Sem)","exam"],
+    [9,"Su","Leave","leave"],
+    [10,"Mo","Day 45 — Honours/Minor INT 1 (V Sem)","exam"],[11,"Tu","Day 46 — Honours/Minor INT 1 (V Sem)","exam"],
+    [12,"We","Day 47 — Submission of Assignment I","work"],[13,"Th","Day 48","work"],
+    [14,"Fr","Day 49 — Completion of Unit III (III & V Sem)","work"],
+    [15,"Sa","Independence Day","holiday"],
+    [16,"Su","Leave","leave"],
+    [17,"Mo","Day 50","work"],[18,"Tu","Day 51","work"],[19,"We","Day 52","work"],[20,"Th","Day 53","work"],[21,"Fr","Day 54","work"],
+    [22,"Sa","Day 55 — CDP Review 2 (V Sem)","work"],
+    [23,"Su","Leave","leave"],
+    [24,"Mo","Day 56","work"],[25,"Tu","Day 57 — Completion of Unit IV (VII Sem)","work"],
+    [26,"We","Milad-un-Nabi","holiday"],
+    [27,"Th","Day 58","work"],[28,"Fr","Day 59","work"],[29,"Sa","Day 60","work"],
+    [30,"Su","Leave","leave"],
+    [31,"Mo","Day 61","work"],
+  ]),
+  "Sep 2026": mk("Sep 2026", [
+    [1,"Tu","Day 62","work"],[2,"We","Day 63","work"],[3,"Th","Day 64 — Completion of Unit IV (III & V Sem)","work"],
+    [4,"Fr","Krishna Jayanti","holiday"],
+    [5,"Sa","Leave","leave"],[6,"Su","Leave","leave"],
+    [7,"Mo","Day 65","work"],[8,"Tu","Day 66","work"],[9,"We","Day 67","work"],[10,"Th","Day 68","work"],[11,"Fr","Day 69","work"],
+    [12,"Sa","Day 70 — Completion of Unit V (VII Sem)","work"],
+    [13,"Su","Leave","leave"],
+    [14,"Mo","Vinayakar Chathurthi","holiday"],
+    [15,"Tu","Day 71","work"],
+    [16,"We","Day 72 — Internal Test II (VII Sem)","exam"],[17,"Th","Day 73 — Internal Test II (VII Sem)","exam"],
+    [18,"Fr","Day 74 — Internal Test II (VII Sem) · SEE registration closes","exam"],
+    [19,"Sa","Day 75 — Internal Test II (VII Sem)","exam"],
+    [20,"Su","Leave","leave"],
+    [21,"Mo","Day 76 — Internal Test II (VII Sem)","exam"],[22,"Tu","Day 77 — Internal Test II (VII Sem)","exam"],
+    [23,"We","Day 78 — CDP Review 3 (V Sem) · Honours/Minor INT 2 (VII Sem) · Completion of Unit V (III & V Sem)","exam"],
+    [24,"Th","Day 79 — Internal Test II (III & V Sem) · Model Practical / Honours-Minor INT 2 (VII Sem)","exam"],
+    [25,"Fr","Day 80 — Internal Test II (III & V Sem) · Model Practical (VII Sem)","exam"],
+    [26,"Sa","Day 81 — Internal Test II (III & V Sem) · Model Practical (VII Sem)","exam"],
+    [27,"Su","Leave","leave"],
+    [28,"Mo","Day 82 — Internal Test II (III & V Sem) · Model Practical (VII Sem)","exam"],
+    [29,"Tu","Day 83 — Internal Test II (III & V Sem) · Model Practical (VII Sem)","exam"],
+    [30,"We","Day 84 — Internal Test II (III & V Sem) · Model Practical (VII Sem)","exam"],
+  ]),
+  "Oct 2026": mk("Oct 2026", [
+    [1,"Th","Day 85 — Model Practical (VII Sem) · Submission of Assignment II","exam"],
+    [2,"Fr","Gandhi Jayanti","holiday"],
+    [3,"Sa","Leave","leave"],[4,"Su","Leave","leave"],
+    [5,"Mo","Day 86 — Honours/Minor INT 2 (V Sem) · Model Practical (III & V Sem) · SEE Practical (VII Sem)","exam"],
+    [6,"Tu","Day 87 — Honours/Minor INT 2 (V Sem) · Model Practical (III & V Sem) · SEE Practical (VII Sem)","exam"],
+    [7,"We","Day 88 — Model Practical (III & V Sem) · SEE Practical (VII Sem)","exam"],
+    [8,"Th","Day 89 — Model Practical (III & V Sem) · SEE Practical (VII Sem)","exam"],
+    [9,"Fr","Day 90 — Model Practical (III & V Sem) · SEE Practical (VII Sem) · Last working day (VII Sem)","exam"],
+    [10,"Sa","Day 91 — Model Practical (III & V Sem) · Attendance proforma (VII Sem)","exam"],
+    [11,"Su","Leave","leave"],
+    [12,"Mo","Day 92 — SEE Practical (III & V Sem)","exam"],[13,"Tu","Day 93 — SEE Practical (III & V Sem)","exam"],
+    [14,"We","Day 94 — SEE Practical (III & V Sem)","exam"],[15,"Th","Day 95 — SEE Practical (III & V Sem)","exam"],
+    [16,"Fr","Day 96 — SEE Practical · Last working day (III & V Sem)","exam"],
+    [17,"Sa","Leave","leave"],[18,"Su","Leave","leave"],
+    [19,"Mo","Ayutha Pooja","holiday"],
+    [20,"Tu","Vijaya Dasami","holiday"],
+    [21,"We","Day 97 — Attendance proforma submission (III & V Sem)","work"],
+    [22,"Th","Day 98 — SEE Theory 1 (VII Sem)","exam"],[23,"Fr","Day 99 — SEE Theory 1 (III & V Sem)","exam"],
+    [24,"Sa","Day 100 — SEE Theory 2 (VII Sem)","exam"],
+    [25,"Su","Leave","leave"],
+    [26,"Mo","Day 101 — SEE Theory 2 (III & V Sem)","exam"],[27,"Tu","Day 102 — SEE Theory 3 (VII Sem)","exam"],
+    [28,"We","Day 103 — SEE Theory 3 (III & V Sem)","exam"],[29,"Th","Day 104 — SEE Theory 4 (VII Sem)","exam"],
+    [30,"Fr","Day 105 — SEE Theory 4 (III & V Sem)","exam"],[31,"Sa","Day 106 — SEE Theory 5 (VII Sem)","exam"],
+  ]),
+  "Nov 2026": mk("Nov 2026", [
+    [1,"Su","Leave","leave"],
+    [2,"Mo","Day 107 — SEE Theory 5 (III & V Sem)","exam"],[3,"Tu","Day 108 — SEE Theory 6 (VII Sem)","exam"],
+    [4,"We","Day 109 — SEE Theory 6 (III & V Sem)","exam"],[5,"Th","Day 110 — SEE Honours/Minor (V & VII Sem)","exam"],
+    [6,"Fr","Day 111 — SEE Honours/Minor (V & VII Sem) · CDP Viva voce (V Sem)","exam"],
+    [7,"Sa","Deepavali Holidays","holiday"],[8,"Su","Deepavali Holidays","holiday"],
+    [9,"Mo","Deepavali Holidays","holiday"],[10,"Tu","Deepavali Holidays","holiday"],
+    [11,"We","Day 112","work"],[12,"Th","Day 113","work"],[13,"Fr","Day 114","work"],[14,"Sa","Day 115","work"],
+    [15,"Su","Leave","leave"],
+    [16,"Mo","Day 116","work"],[17,"Tu","Day 117","work"],[18,"We","Day 118","work"],[19,"Th","Day 119","work"],
+    [20,"Fr","Day 120","work"],[21,"Sa","Day 121","work"],
+    [22,"Su","Leave","leave"],
+    [23,"Mo","Day 122","work"],[24,"Tu","Day 123","work"],[25,"We","Day 124","work"],[26,"Th","Day 125","work"],
+    [27,"Fr","Day 126","work"],[28,"Sa","Day 127","work"],
+    [29,"Su","Leave","leave"],
+    [30,"Mo","Day 128","work"],
+  ]),
+};
+const monthKeys = Object.keys(calendarData);
+// weekday index for the 1st of each month (2026): Jun=Mon(1),Jul=Wed(3),Aug=Sat(6),Sep=Tue(2),Oct=Thu(4),Nov=Sun(0)
+const monthLead = {"Jun 2026":1,"Jul 2026":3,"Aug 2026":6,"Sep 2026":2,"Oct 2026":4,"Nov 2026":0};
+
+/* ---------------- APP ---------------- */
+
+const App = {
+  setup(){
+    const tab = ref('students');
+    const tabs = [
+      {id:'students', label:'Students'},
+      {id:'timetable', label:'Timetable'},
+      {id:'calendar', label:'Academic Calendar'},
+      {id:'faculty', label:'Faculty'},
+    ];
+
+    // students
+    const query = ref('');
+    const filteredStudents = computed(()=>{
+      const q = query.value.trim().toLowerCase();
+      if(!q) return students;
+      return students.filter(s => s.name.toLowerCase().includes(q) || s.roll.toLowerCase().includes(q));
+    });
+
+    // timetable
+    const today = new Date();
+    const todayIdx = today.getDay(); // 0 Sun .. 6 Sat
+    const defaultDay = (todayIdx>=1 && todayIdx<=6) ? dayNames[todayIdx-1] : 'Monday';
+    const activeDay = ref(defaultDay);
+
+    // calendar
+    const activeMonth = ref('Jun 2026');
+    const selectedDay = ref(null);
+    function pickMonth(m){ activeMonth.value = m; selectedDay.value = null; }
+    function cellsFor(m){
+      const lead = monthLead[m];
+      const blanks = Array.from({length:lead}, (_,i)=>({blank:true,key:'b'+i}));
+      return [...blanks, ...calendarData[m]];
+    }
+    function selectDay(day){ if(day.blank) return; selectedDay.value = day; }
+    const badgeClass = (type)=> type==='leave'?'b-leave':type==='holiday'?'b-holiday':type==='exam'?'b-exam':'b-work';
+    const badgeText = (type)=> type==='leave'?'Sunday / leave':type==='holiday'?'Holiday':type==='exam'?'Exam / assessment':'Working day';
+
+    return { tab, tabs, query, filteredStudents, students,
+             periodTimes, timetable, dayNames, activeDay,
+             faculty,
+             monthKeys, activeMonth, pickMonth, cellsFor, selectedDay, selectDay, badgeClass, badgeText };
+  },
+  template: `
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="eyebrow-row">
+        <p class="college-name">Hindusthan College of Engineering and Technology, Coimbatore</p>
+        <span class="cohort-tag">Class of 2028</span>
+      </div>
+      <h1 class="class-title serif">I Year MCA · Semester One</h1>
+      <p class="class-sub">Department of Computer Applications — roster, weekly timetable, odd-semester academic calendar and faculty in charge, all in one place for the batch.</p>
+    </div>
+    <nav class="tabs">
+      <button v-for="t in tabs" :key="t.id" :class="{active: tab===t.id}" @click="tab=t.id">{{ t.label }}</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- STUDENTS -->
+    <section class="panel" :class="{active: tab==='students'}">
+      <div class="section-head">
+        <h2 class="serif">Class Roster</h2>
+        <p>All {{ students.length }} students of I Year MCA, Semester One.</p>
+      </div>
+      <div class="student-toolbar">
+        <div class="search-box">
+          <input type="text" v-model="query" placeholder="Search by name or roll number…" aria-label="Search students">
+        </div>
+        <span class="count-pill">{{ filteredStudents.length }} of {{ students.length }} shown</span>
+      </div>
+      <div class="roster" v-if="filteredStudents.length">
+        <div class="stu-card" v-for="s in filteredStudents" :key="s.roll">
+          <div class="stu-num">{{ s.sno }}</div>
+          <div>
+            <div class="stu-name">{{ s.name }}</div>
+            <div class="stu-roll">{{ s.roll }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state" v-else>No student matches “{{ query }}”.</div>
+    </section>
+
+    <!-- TIMETABLE -->
+    <section class="panel" :class="{active: tab==='timetable'}">
+      <div class="section-head">
+        <h2 class="serif">Weekly Timetable</h2>
+        <p>Hall B 107 &middot; Odd Semester 2026–27. Bridge sessions cover POP &amp; OOP and Web Design foundations.</p>
+      </div>
+
+      <!-- wide table, tablet/desktop -->
+      <div class="tt-wide tt-scroll">
+        <table class="tt">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th v-for="(pt,i) in periodTimes" :key="i" :class="{}">
+                <span v-if="pt!=='BREAK' && pt!=='LUNCH'" class="period-times">{{ pt }}</span>
+                <span v-else>{{ pt }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="d in dayNames" :key="d">
+              <td class="tt-day-label">{{ d }}</td>
+              <td v-for="(slot,i) in timetable[d]" :key="i"
+                  :class="['slot', slot.t==='break' ? 'brk' : slot.t==='lunch' ? 'lunch' : slot.t==='empty' ? 'empty' : '']">
+                <template v-if="slot.t==='class'">
+                  <span class="subj">{{ slot.subj }}</span>
+                  <span class="code">{{ slot.code }}</span>
+                </template>
+                <template v-else-if="slot.t==='break'">BREAK</template>
+                <template v-else-if="slot.t==='lunch'">LUNCH</template>
+                <template v-else>—</template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- narrow, mobile: pick a day -->
+      <div class="tt-narrow">
+        <div class="day-picker">
+          <button v-for="d in dayNames" :key="d" :class="{active: activeDay===d}" @click="activeDay=d">{{ d.slice(0,3) }}</button>
+        </div>
+        <div v-for="d in dayNames" :key="d" class="day-card" :class="{show: activeDay===d}">
+          <div v-for="(slot,i) in timetable[d]" :key="i"
+               class="slot-row" :class="{'break-row': slot.t==='break', 'lunch-row': slot.t==='lunch'}">
+            <div class="when">{{ periodTimes[i] }}</div>
+            <div class="what">
+              <template v-if="slot.t==='class'">
+                {{ slot.subj }}
+                <small>{{ slot.code }}</small>
+              </template>
+              <template v-else-if="slot.t==='break'">Break</template>
+              <template v-else-if="slot.t==='lunch'">Lunch</template>
+              <template v-else>Free period</template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="panel" :class="{active: tab==='calendar'}">
+      <div class="section-head">
+        <h2 class="serif">Academic Calendar</h2>
+        <p>Odd semester 2026–27, college-wide. Semester started 08 June 2026; the working-day count (Day 1, Day 2 …) runs continuously across the term.</p>
+      </div>
+
+      <div class="month-picker">
+        <button v-for="m in monthKeys" :key="m" :class="{active: activeMonth===m}" @click="pickMonth(m)">{{ m }}</button>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot" style="background:var(--brass)"></i> Working day</span>
+        <span><i class="dot" style="background:var(--exam)"></i> Test / exam</span>
+        <span><i class="dot" style="background:var(--holiday)"></i> Holiday</span>
+        <span><i class="dot" style="background:var(--leave)"></i> Sunday / leave</span>
+      </div>
+
+      <div class="cal-grid">
+        <div class="cal-dow" v-for="dn in ['Mo','Tu','We','Th','Fr','Sa','Su']" :key="dn">{{ dn }}</div>
+        <div v-for="cell in cellsFor(activeMonth)" :key="cell.key || (cell.month+cell.d)"
+             class="cal-cell" :class="[cell.blank ? 'blank' : (cell.type||'work'), {selected: selectedDay===cell}]"
+             @click="selectDay(cell)">
+          <template v-if="!cell.blank">
+            <span class="num">{{ cell.d }}</span>
+            <span class="tag">{{ cell.label }}</span>
+          </template>
+        </div>
+      </div>
+
+      <div class="cal-detail" v-if="selectedDay">
+        <span class="d-badge" :class="badgeClass(selectedDay.type)">{{ badgeText(selectedDay.type) }}</span>
+        <div class="d-date serif">{{ selectedDay.dow }}, {{ selectedDay.d }} {{ selectedDay.month }}</div>
+        <div class="d-label">{{ selectedDay.label || 'No events recorded for this day.' }}</div>
+      </div>
+    </section>
+
+    <!-- FACULTY -->
+    <section class="panel" :class="{active: tab==='faculty'}">
+      <div class="section-head">
+        <h2 class="serif">Faculty In Charge</h2>
+        <p>Subject-wise faculty for Semester One. No single class advisor was listed on the source timetable — add one here if your department assigns one.</p>
+      </div>
+      <div class="fac-table-wrap">
+        <table class="fac">
+          <thead>
+            <tr><th>Category</th><th>Code</th><th>Subject</th><th>Cr</th><th>Hrs</th><th>Faculty</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="f in faculty" :key="f.code">
+              <td><span class="cat-pill">{{ f.cat }}</span></td>
+              <td>{{ f.code }}</td>
+              <td>{{ f.name }}</td>
+              <td>{{ f.cr }}</td>
+              <td>{{ f.hrs }}</td>
+              <td>{{ f.fac }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fac-note">Cr = credits, Hrs = weekly contact hours. Bridge courses carry no credit and support students transitioning into the programme.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    Hindusthan College of Engineering and Technology · Department of Computer Applications · I Year MCA, Class of 2028
+  </footer>
+  `
+};
+
+createApp(App).mount('#app');
+</script>
+</body>
+</html>
